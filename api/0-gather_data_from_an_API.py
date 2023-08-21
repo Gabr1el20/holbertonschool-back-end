@@ -11,9 +11,11 @@ and displays them along with the employee's name.
 import json
 import requests
 from sys import argv
-if len(argv) != 2:
-    exit()
-user_id = argv[1]
+user_id = None
+try:
+    user_id = argv[1]
+except Exception as e:
+    pass
 todos_requests = requests.get(f"https://jsonplaceholder"
                               f".typicode.com/users/{user_id}/todos")
 user_request = requests.get(f"https://jsonplaceholder"
