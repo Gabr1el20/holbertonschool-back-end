@@ -31,7 +31,5 @@ if __name__ == "__main__":
     with open(f"{user_id}.csv", mode="w", newline='') as f:
         writted = csv.writer(f)
         for x in dicted_todos:
-            writted.writerow([f'{user_id}',
-                              f'{dicted_user.get("name")}',
-                              f'{x.get("completed")}',
-                              f'{x.get("title")}'])
+            f.write(f'"{user_id}","{dicted_user.get("name")}","{x.get("completed")}","{x.get("title")}"')
+            f.write('\n')
