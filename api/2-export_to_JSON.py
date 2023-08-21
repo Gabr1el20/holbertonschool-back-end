@@ -13,7 +13,7 @@ import requests
 from sys import argv
 user_id = None
 try:
-    user_id = argv[1]
+    user_id = int(argv[1])
 except Exception as e:
     pass
 todos_requests = requests.get(f"https://jsonplaceholder"
@@ -33,11 +33,12 @@ if __name__ == "__main__":
         dicted_json = {}
         listed_values = []
         for task in dicted_todos:
-            aux_dict = {}
-            aux_dict["task"] = f"{task.get('title')}"
-            aux_dict["completed"] = f"{task.get('completed')}"
-            aux_dict["username"] = f"{dicted_user.get('username')}"
-            listed_values.append(aux_dict)
-        dicted_json[f'{user_id}'] = listed_values
-        json.dump(dicted_json, f)
-        print(dicted_json)
+            if task['userId'] == user_id:
+                listed_values.append({
+                    "task": task.get('title'),
+                    "completed": task.get('completed'),
+                    'username': dicted_user.get('username')
+                })
+        dicted_json[user_id] = listed_values
+        jsoned = json.dumps(dicted_json)
+        f.write(jsoned)
