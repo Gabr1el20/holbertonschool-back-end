@@ -28,8 +28,10 @@ for x in dicted_todos:
     completed_tasks.append(x)
 if __name__ == "__main__":
     """only execute the code when is main"""
-    with open(f"{user_id}.csv", mode="w", newline='') as f:
-        writted = csv.writer(f)
-        for x in dicted_todos:
-            f.write(f'"{user_id}","{dicted_user.get("name")}","{x.get("completed")}","{x.get("title")}"')
+    with open(f"{user_id}.csv", mode="w") as f:
+        for values in dicted_todos:
+            f.write(f'"{user_id}",')
+            f.write(f'"{dicted_user.get("username")}",')
+            f.write(f'"{values.get("completed")}",')
+            f.write(f'"{values.get("title")}"')
             f.write('\n')
