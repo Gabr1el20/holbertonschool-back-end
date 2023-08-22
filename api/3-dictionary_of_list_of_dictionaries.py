@@ -1,31 +1,37 @@
 #!/usr/bin/python3
-"""
-Employee TODO List Progress Script
-
-This script fetches and displays information about
-an employee's TODO list progress using a REST API.
-It retrieves the user's TODO list based on the provided employee ID,
-counts completed tasks,
-and displays them along with the employee's name.
-"""
 import json
 import requests
-from sys import argv
-all_users = requests.get("https://jsonplaceholder.typicode.com/users").json()
-all_ids = (all_users[-1].get('id'))
-for user in range(1, all_ids + 1):
-    tasks_to_do = requests.get(f"https://jsonplaceholder.typicode.com/users/{user}/todos").json()
-    user_data = requests.get(f"https://jsonplaceholder.typicode.com/users/{user}").json()
-    dicted_json = {}
+
+
+def fetch_todo_list(user_id):
+    tasks_to_do = requests.get(f"https://jsonplaceholder.typicode.com"
+                               f"/users/{user_id}/todos").json()
+    user_data = requests.get(f"https://jsonplaceholder"
+                             f".typicode.com/users/{user_id}").json()
+
     listed_values = []
     for task in tasks_to_do:
-        if task["userId"] == user:
-            listed_values.append({
-                "task": task.get('title'),
-                "completed": task.get('completed'),
-                "username": user_data.get('username')
-            })
-    dicted_json[user] = listed_values
-    jsoned = json.dumps(dicted_json)
+        listed_values.append({
+            "task": task.get('title'),
+            "completed": task.get('completed'),
+            "username": user_data.get('username')
+        })
+
+    return listed_values
+
+
+def main():
+    all_users = requests.get("https://jsonplaceholder"
+                             f".typicode.com/users").json()
+    all_ids = len(all_users)
+
+    user_tasks = {}
+    for user_id in range(1, all_ids + 1):
+        user_tasks[user_id] = fetch_todo_list(user_id)
+
     with open("todo_all_employees.json", mode="w") as f:
-        f.write(jsoned)
+        json.dump(user_tasks, f)
+
+
+if __name__ == "__main__":
+    main()
