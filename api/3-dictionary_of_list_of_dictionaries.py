@@ -1,9 +1,11 @@
 #!/usr/bin/python3
+"""A script that lists all tasks from all users"""
 import json
 import requests
 
 
 def fetch_todo_list(user_id):
+    """fetch the API data of todo's list"""
     tasks_to_do = requests.get(f"https://jsonplaceholder.typicode.com"
                                f"/users/{user_id}/todos").json()
     user_data = requests.get(f"https://jsonplaceholder"
@@ -21,6 +23,7 @@ def fetch_todo_list(user_id):
 
 
 def main():
+    "Entry point"
     all_users = requests.get("https://jsonplaceholder"
                              f".typicode.com/users").json()
     all_ids = len(all_users)
